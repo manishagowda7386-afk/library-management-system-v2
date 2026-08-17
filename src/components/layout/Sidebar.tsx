@@ -1,137 +1,121 @@
-import {
-  BarChart3,
-  BookOpen,
-  ChevronDown,
-  LayoutDashboard,
-  Library,
-  LogOut,
-  Settings,
-  Users,
-} from 'lucide-react'
+import React from "react";
 
-const navigationItems = [
-  {
-    label: 'Dashboard',
-    icon: LayoutDashboard,
-    active: true,
-  },
-  {
-    label: 'Books',
-    icon: BookOpen,
-  },
-  {
-    label: 'Members',
-    icon: Users,
-  },
-  {
-    label: 'Loans',
-    icon: Library,
-  },
-  {
-    label: 'Reports',
-    icon: BarChart3,
-  },
-]
+type SidebarProps = {
+  activeItem: string;
+  onItemChange: (item: string) => void;
+};
 
-export default function Sidebar() {
+const menuItems = [
+  {
+    label: "Dashboard",
+    icon: "▦",
+  },
+  {
+    label: "Books",
+    icon: "▤",
+  },
+  {
+    label: "Members",
+    icon: "♙",
+  },
+  {
+    label: "Borrowed",
+    icon: "↗",
+  },
+  {
+    label: "Returns",
+    icon: "↙",
+  },
+];
+
+const secondaryItems = [
+  {
+    label: "Analytics",
+    icon: "◔",
+  },
+  {
+    label: "Settings",
+    icon: "⚙",
+  },
+];
+
+function Sidebar({ activeItem, onItemChange }: SidebarProps) {
   return (
-    <aside className="flex h-screen w-[250px] shrink-0 flex-col border-r border-white/5 bg-[#0d1210]">
-      <div className="flex h-[76px] items-center border-b border-white/5 px-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20">
-            <BookOpen size={21} strokeWidth={2} />
-          </div>
+    <aside className="sidebar">
+      <div className="sidebar-brand">
+        <div className="brand-logo">
+          <span>LN</span>
+        </div>
 
-          <div>
-            <h1 className="text-[15px] font-semibold tracking-tight text-white">
-              Library Nexus
-            </h1>
-
-            <p className="text-[11px] text-gray-500">
-              Management System
-            </p>
-          </div>
+        <div>
+          <h1>Library Nexus</h1>
+          <p>Management System</p>
         </div>
       </div>
 
-      <div className="flex-1 px-3 py-6">
-        <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-600">
-          Workspace
-        </p>
+      <div className="sidebar-section">
+        <p className="sidebar-heading">MAIN MENU</p>
 
-        <nav className="space-y-1">
-          {navigationItems.map((item) => {
-            const Icon = item.icon
-
-            return (
-              <button
-                key={item.label}
-                className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition-all ${
-                  item.active
-                    ? 'bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/10'
-                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-200'
-                }`}
-              >
-                <Icon
-                  size={18}
-                  strokeWidth={1.8}
-                  className={
-                    item.active
-                      ? 'text-emerald-400'
-                      : 'text-gray-600 group-hover:text-gray-300'
-                  }
-                />
-
-                <span>{item.label}</span>
-
-                {item.active && (
-                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                )}
-              </button>
-            )
-          })}
+        <nav>
+          {menuItems.map((item) => (
+            <button
+              key={item.label}
+              className={`sidebar-item ${
+                activeItem === item.label ? "active" : ""
+              }`}
+              onClick={() => onItemChange(item.label)}
+            >
+              <span className="sidebar-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
         </nav>
-
-        <div className="my-6 h-px bg-white/5" />
-
-        <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-600">
-          System
-        </p>
-
-        <button className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-500 transition-all hover:bg-white/[0.03] hover:text-gray-200">
-          <Settings
-            size={18}
-            strokeWidth={1.8}
-            className="text-gray-600 group-hover:text-gray-300"
-          />
-          <span>Settings</span>
-        </button>
       </div>
 
-      <div className="border-t border-white/5 p-4">
-        <button className="flex w-full items-center gap-3 rounded-xl p-2 transition-colors hover:bg-white/[0.03]">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400/30 to-emerald-700/30 text-sm font-semibold text-emerald-300 ring-1 ring-white/10">
-            M
+      <div className="sidebar-section secondary-menu">
+        <p className="sidebar-heading">SYSTEM</p>
+
+        <nav>
+          {secondaryItems.map((item) => (
+            <button
+              key={item.label}
+              className={`sidebar-item ${
+                activeItem === item.label ? "active" : ""
+              }`}
+              onClick={() => onItemChange(item.label)}
+            >
+              <span className="sidebar-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      <div className="sidebar-bottom">
+        <div className="upgrade-card">
+          <div className="upgrade-icon">✦</div>
+
+          <div>
+            <strong>Library Pro</strong>
+            <p>Advanced management tools</p>
           </div>
 
-          <div className="min-w-0 flex-1 text-left">
-            <p className="truncate text-sm font-medium text-gray-200">
-              Maneesha
-            </p>
+          <button>→</button>
+        </div>
 
-            <p className="truncate text-[11px] text-gray-600">
-              Administrator
-            </p>
+        <div className="profile-card">
+          <div className="profile-avatar">MT</div>
+
+          <div className="profile-info">
+            <strong>Manisha Tech</strong>
+            <span>Administrator</span>
           </div>
 
-          <ChevronDown size={15} className="text-gray-600" />
-        </button>
-
-        <button className="mt-2 flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-xs text-gray-600 transition-colors hover:bg-red-500/5 hover:text-red-400">
-          <LogOut size={15} />
-          Sign out
-        </button>
+          <span className="profile-menu">•••</span>
+        </div>
       </div>
     </aside>
-  )
+  );
 }
+
+export default Sidebar;
