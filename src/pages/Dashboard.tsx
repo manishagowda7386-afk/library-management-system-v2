@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Sidebar from "../components/layout/Sidebar";
 import Topbar from "../components/layout/Topbar";
 
+type DashboardProps = {
+  onNavigate?: (page: string) => void;
+};
+
 const stats = [
   {
     title: "Total Books",
@@ -102,24 +106,34 @@ const activities = [
   },
 ];
 
-function Dashboard() {
+function Dashboard({ onNavigate }: DashboardProps) {
   const [activeItem, setActiveItem] = useState("Dashboard");
+
+  const handleNavigation = (item: string) => {
+    setActiveItem(item);
+
+    if (item === "Books") {
+      onNavigate?.("Books");
+    }
+  };
 
   return (
     <div className="app-shell">
       <Sidebar
         activeItem={activeItem}
-        onItemChange={setActiveItem}
+        onItemChange={handleNavigation}
       />
 
       <main className="main-content">
-        <Topbar activePage={activeItem} />
+        <Topbar activePage="Dashboard" />
 
         <div className="dashboard-content">
           <section className="welcome-section">
             <div>
               <p className="eyebrow">OVERVIEW</p>
+
               <h1>Good morning, Manisha 👋</h1>
+
               <p>
                 Here's what's happening with your library today.
               </p>
@@ -163,7 +177,10 @@ function Dashboard() {
                   <p>Recently added and updated books</p>
                 </div>
 
-                <button className="text-button">
+                <button
+                  className="text-button"
+                  onClick={() => onNavigate?.("Books")}
+                >
                   View all →
                 </button>
               </div>
@@ -227,7 +244,10 @@ function Dashboard() {
 
               <div className="activity-list">
                 {activities.map((activity) => (
-                  <div className="activity-item" key={`${activity.name}-${activity.time}`}>
+                  <div
+                    className="activity-item"
+                    key={`${activity.name}-${activity.time}`}
+                  >
                     <div className="activity-avatar">
                       {activity.initials}
                     </div>
@@ -255,13 +275,16 @@ function Dashboard() {
 
               <div>
                 <h3>Add a new book</h3>
+
                 <p>
                   Add books to your library collection and keep
                   your catalog updated.
                 </p>
               </div>
 
-              <button>→</button>
+              <button onClick={() => onNavigate?.("Books")}>
+                →
+              </button>
             </article>
 
             <article className="quick-action-card purple">
@@ -269,6 +292,7 @@ function Dashboard() {
 
               <div>
                 <h3>Manage members</h3>
+
                 <p>
                   View members, borrowing history and account
                   activity.
